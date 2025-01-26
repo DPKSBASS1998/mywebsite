@@ -1,0 +1,38 @@
+﻿@using mywebsite.Models.Users
+
+@{
+    ViewData["Title"] = "Login";
+}
+@model LoginViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вхід в особистий кабінет</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Вхід в особистий кабінет</h2>
+        <form asp-action="Login" asp-controller="Account" method="post">
+            <div class="form-group">
+                <label asp-for="Email">Електронна пошта</label>
+                <input asp-for="Email" class="form-control" required />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password">Пароль</label>
+                <input asp-for="Password" class="form-control" type="password" required />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Увійти</button>
+        </form>
+    </div>
+
+</body>
+</html>
