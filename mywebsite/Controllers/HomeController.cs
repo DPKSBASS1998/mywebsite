@@ -1,20 +1,42 @@
 using System.Diagnostics;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using mywebsite.Models;
+using mywebsite.Models.Users;
 
 namespace mywebsite.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly UserManager<User> _userManager;
+        public HomeController(ILogger<HomeController> logger, UserManager<User> userManager)
         {
             _logger = logger;
+            _userManager = userManager;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index()
         {
+            // Якщо користувач автентифікований
+            if (User.Identity.IsAuthenticated)
+            {
+                // Отримуємо користувача
+                var user = await _userManager.GetUserAsync(User);
+
+                if (user != null)
+                {
+                    // Перевіряємо роль
+                    if (await _userManager.IsInRoleAsync(user, "Manager"))
+                    {
+                        // Перенаправляємо менеджера на сторінку менеджера
+                        return RedirectToAction("Index", "Manager");
+                    }
+                }
+            }
+
+            // Якщо користувач не авторизований, показуємо стандартну головну сторінку
             return View();
         }
 
