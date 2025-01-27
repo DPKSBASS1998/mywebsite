@@ -7,8 +7,7 @@ namespace mywebsite.Models.Products
     {
         [Key] // Первинний ключ
         [ForeignKey("Product")] // Зв'язок із таблицею Product
-        public int Id { get; set; }
-
+        public int ProductId { get; set; }
         public Product Product { get; set; }
         [Required]
         public string Name { get; set; }
@@ -24,6 +23,7 @@ namespace mywebsite.Models.Products
         public string CaseMaterial { get; set; }
         [Required]
         public string Mount { get; set; }
+        public string ImagePath { get; set; }
 
     }
 }

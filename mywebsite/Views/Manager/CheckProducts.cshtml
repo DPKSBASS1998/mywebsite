@@ -1,5 +1,49 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿@model mywebsite.Models.Search.ProductSearchViewModel
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Пошук товарів</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <h2>Пошук товарів</h2>
+
+        <form asp-action="SearchProducts" method="get">
+            <div class="form-group">
+                <label for="ProductId">ID товару</label>
+                <input type="number" class="form-control" id="ProductId" name="ProductId" value="@Model.ProductId" required />
+            </div>
+            <button type="submit" class="btn btn-primary">Пошук</button>
+        </form>
+
+        <br />
+
+        @if (Model.Product != null)
+        {
+            <h3>Знайдений товар</h3>
+            <p>ID товару: @Model.Product.Id</p>
+            <!-- Інші поля товару -->
+        }
+
+        <h3>Додати товар</h3>
+        <div class="dropdown">
+            <button class="btn btn-success dropdown-toggle" type="button" id="productDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                Додати товар
+            </button>
+            <ul class="dropdown-menu" aria-labelledby="productDropdown">
+                <li><a class="dropdown-item" asp-controller="Manager" asp-action="AddKeyboard">Клавіатура</a></li>
+                <li><a class="dropdown-item" asp-controller="Manager" asp-action="AddBarebone">DIY База</a></li>
+                <!-- Додайте більше товарів сюди -->
+            </ul>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
