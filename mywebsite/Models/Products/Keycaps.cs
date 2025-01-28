@@ -21,6 +21,7 @@ namespace mywebsite.Models.Products
         public string ManufacturingProcess {  get; set; }
         [Required]
         public string LayoutStandard { get; set; }
-        public string ImagePath { get; set; }
+        [Required]
+        public string ImagePath { get; set; } = "imagehere.png";
     }
 }

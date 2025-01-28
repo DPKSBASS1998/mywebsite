@@ -27,6 +27,7 @@ namespace mywebsite.Models.Products
         public string Mount {  get; set; }
         [Required]
         public string SwitchType { get; set; }
+        [Required]
         public string ImagePath { get; set; } = "imagehere.png";
     }
 }

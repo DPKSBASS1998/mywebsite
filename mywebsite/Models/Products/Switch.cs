@@ -26,7 +26,8 @@ namespace mywebsite.Models.Products
 
         public int TactilePosition { get; set; }
         public int TactileForce { get; set; }
-        public string ImagePath { get; set; }
+        [Required]
+        public string ImagePath { get; set; } = "imagehere.png";
 
     }
 }

@@ -64,6 +64,7 @@ namespace mywebsite.Controllers
         {
             return View("~/Views/Products/AddKeyboard.cshtml"); 
         }
+
         [HttpPost]
         public IActionResult AddKeyboard(Keyboard model, IFormFile imageFile)
         {
@@ -77,23 +78,10 @@ namespace mywebsite.Controllers
                     {
                         Console.WriteLine("Зображення знайдено, починаємо обробку.");
 
-                        var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images/keyboards");
-                        if (!Directory.Exists(uploadsFolder))
-                        {
-                            Directory.CreateDirectory(uploadsFolder);
-                        }
+                        // Викликаємо новий метод для збереження зображення
+                        var fileName = model.Name; // Використовуємо назву моделі як ім'я файлу
+                        model.ImagePath = SaveImage(imageFile, fileName);
 
-                        // Генеруємо ім'я файлу на основі назви моделі (Name)
-                        var fileName = $"{model.Name}.png"; // Ви можете додати перевірку на валідність імені, якщо потрібно
-                        var filePath = Path.Combine(uploadsFolder, fileName);
-
-                        using (var stream = new FileStream(filePath, FileMode.Create))
-                        {
-                            imageFile.CopyTo(stream);
-                        }
-
-                        // Зберігаємо шлях до зображення в модель
-                        model.ImagePath = $"/images/keyboards/{fileName}";
                         Console.WriteLine($"Зображення успішно збережено за шляхом: {model.ImagePath}");
                     }
                     else
@@ -129,8 +117,10 @@ namespace mywebsite.Controllers
                 }
             }
 
-            return View("~/Views/Products/AddKeyboard.cshtml", model);
+            // Повертаємо ту ж форму, якщо модель не валідна
+            return View(model);
         }
+
 
 
         private void AddProductToDatabase(object model)
@@ -183,6 +173,41 @@ namespace mywebsite.Controllers
             }
         }
 
+        private string SaveImage(IFormFile imageFile, string fileName, string folderPath = "images/keyboards")
+        {
+            try
+            {
+                // Генеруємо шлях для збереження зображення
+                var uploadsFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", folderPath);
+                if (!Directory.Exists(uploadsFolder))
+                {
+                    Directory.CreateDirectory(uploadsFolder);
+                }
+
+                // Додаємо розширення до імені файлу, якщо його немає
+                if (!Path.HasExtension(fileName))
+                {
+                    fileName += Path.GetExtension(imageFile.FileName); // Використовуємо оригінальне розширення
+                }
+
+                // Повний шлях до файлу
+                var filePath = Path.Combine(uploadsFolder, fileName);
+
+                // Збереження файлу
+                using (var stream = new FileStream(filePath, FileMode.Create))
+                {
+                    imageFile.CopyTo(stream);
+                }
+
+                // Повертаємо відносний шлях для збереження в модель
+                return $"/{folderPath}/{fileName}";
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Помилка при збереженні зображення: {ex.Message}");
+                throw;
+            }
+        }
 
 
 

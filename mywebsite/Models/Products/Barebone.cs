@@ -23,7 +23,8 @@ namespace mywebsite.Models.Products
         public string CaseMaterial { get; set; }
         [Required]
         public string Mount { get; set; }
-        public string ImagePath { get; set; }
+        [Required]
+        public string ImagePath { get; set; } = "imagehere.png";
 
     }
 }
