@@ -32,20 +32,21 @@
             </div>
 
             <div class="form-group">
-                <label asp-for="RGB">RGB підсвітка</label>
-                <!-- Булеве поле RGB -->
-                <input type="hidden" name="RGB" value="false" />
-                <input asp-for="RGB" class="form-check-input" type="checkbox" value="true" />
+                <div class="form-check">
+                    <input asp-for="RGB" class="form-check-input" type="checkbox" />
+                    <label asp-for="RGB" class="form-check-label">RGB підсвітка</label>
+                </div>
                 <span asp-validation-for="RGB" class="text-danger"></span>
             </div>
 
             <div class="form-group">
-                <label asp-for="HotSwap">Hot-Swap</label>
-                <!-- Булеве поле HotSwap -->
-                <input type="hidden" name="HotSwap" value="false" />
-                <input asp-for="HotSwap" class="form-check-input" type="checkbox" value="true" />
+                <div class="form-check">
+                    <input asp-for="HotSwap" class="form-check-input" type="checkbox" />
+                    <label asp-for="HotSwap" class="form-check-label">Hot-Swap</label>
+                </div>
                 <span asp-validation-for="HotSwap" class="text-danger"></span>
             </div>
+
 
             <div class="form-group">
                 <label asp-for="Connection">Тип підключення</label>
