@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System.Diagnostics;
+using System.Drawing;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.CodeAnalysis;
@@ -118,11 +119,188 @@ namespace mywebsite.Controllers
             }
 
             // Повертаємо ту ж форму, якщо модель не валідна
-            return View(model);
+            return View("~/Views/Products/AddKeyboard.cshtml", model);
+        }
+        public IActionResult AddBarebone()
+        {
+            return View("~/Views/Products/AddBarebone.cshtml");
         }
 
+        [HttpPost]
+        public IActionResult AddBarebone(Barebone model, IFormFile imageFile)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Console.WriteLine("Модель валідна, починаємо обробку зображення та додавання продукту.");
 
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        Console.WriteLine("Зображення знайдено, починаємо обробку.");
 
+                        // Викликаємо новий метод для збереження зображення
+                        var fileName = model.Name; // Використовуємо назву моделі як ім'я файлу
+                        model.ImagePath = SaveImage(imageFile, fileName);
+
+                        Console.WriteLine($"Зображення успішно збережено за шляхом: {model.ImagePath}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Зображення не надано.");
+                    }
+
+                    // Додаємо продукт до бази даних
+                    Console.WriteLine("Починаємо додавання продукту та клавіатури.");
+                    AddProductToDatabase(model);
+
+                    Console.WriteLine("Клавіатура успішно додана.");
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Сталася помилка: {ex.Message}");
+                    Console.WriteLine($"Деталі помилки: {ex.StackTrace}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Модель не валідна, перевіряємо помилки.");
+                foreach (var field in ModelState)
+                {
+                    if (field.Value.Errors.Any())
+                    {
+                        foreach (var error in field.Value.Errors)
+                        {
+                            Console.WriteLine($"Поле: {field.Key}, Помилка: {error.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+
+            // Повертаємо ту ж форму, якщо модель не валідна
+            return View("~/Views/Products/AddBarebone.cshtml", model);
+        }
+        public IActionResult AddKeycaps()
+        {
+            return View("~/Views/Products/AddKeycaps.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult AddKeycaps(Keycaps model, IFormFile imageFile)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Console.WriteLine("Модель валідна, починаємо обробку зображення та додавання продукту.");
+
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        Console.WriteLine("Зображення знайдено, починаємо обробку.");
+
+                        // Викликаємо новий метод для збереження зображення
+                        var fileName = model.Name; // Використовуємо назву моделі як ім'я файлу
+                        model.ImagePath = SaveImage(imageFile, fileName);
+
+                        Console.WriteLine($"Зображення успішно збережено за шляхом: {model.ImagePath}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Зображення не надано.");
+                    }
+
+                    // Додаємо продукт до бази даних
+                    Console.WriteLine("Починаємо додавання продукту та клавіатури.");
+                    AddProductToDatabase(model);
+
+                    Console.WriteLine("Клавіатура успішно додана.");
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Сталася помилка: {ex.Message}");
+                    Console.WriteLine($"Деталі помилки: {ex.StackTrace}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Модель не валідна, перевіряємо помилки.");
+                foreach (var field in ModelState)
+                {
+                    if (field.Value.Errors.Any())
+                    {
+                        foreach (var error in field.Value.Errors)
+                        {
+                            Console.WriteLine($"Поле: {field.Key}, Помилка: {error.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+
+            // Повертаємо ту ж форму, якщо модель не валідна
+            return View("~/Views/Products/AddKeycaps.cshtml", model);
+        }
+        public IActionResult AddSwitch()
+        {
+            return View("~/Views/Products/AddSwitch.cshtml");
+        }
+
+        [HttpPost]
+        public IActionResult AddSwitch(KeyboardSwitch model, IFormFile imageFile)
+        {
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    Console.WriteLine("Модель валідна, починаємо обробку зображення та додавання продукту.");
+
+                    if (imageFile != null && imageFile.Length > 0)
+                    {
+                        Console.WriteLine("Зображення знайдено, починаємо обробку.");
+
+                        // Викликаємо новий метод для збереження зображення
+                        var fileName = model.Name; // Використовуємо назву моделі як ім'я файлу
+                        model.ImagePath = SaveImage(imageFile, fileName);
+
+                        Console.WriteLine($"Зображення успішно збережено за шляхом: {model.ImagePath}");
+                    }
+                    else
+                    {
+                        Console.WriteLine("Зображення не надано.");
+                    }
+
+                    // Додаємо продукт до бази даних
+                    Console.WriteLine("Починаємо додавання продукту та клавіатури.");
+                    AddProductToDatabase(model);
+
+                    Console.WriteLine("Клавіатура успішно додана.");
+                    return RedirectToAction("Index", "Home");
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Сталася помилка: {ex.Message}");
+                    Console.WriteLine($"Деталі помилки: {ex.StackTrace}");
+                }
+            }
+            else
+            {
+                Console.WriteLine("Модель не валідна, перевіряємо помилки.");
+                foreach (var field in ModelState)
+                {
+                    if (field.Value.Errors.Any())
+                    {
+                        foreach (var error in field.Value.Errors)
+                        {
+                            Console.WriteLine($"Поле: {field.Key}, Помилка: {error.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+
+            // Повертаємо ту ж форму, якщо модель не валідна
+            return View("~/Views/Products/AddSwitch.cshtml", model);
+        }
         private void AddProductToDatabase(object model)
         {
             using var transaction = _context.Database.BeginTransaction();
@@ -140,7 +318,7 @@ namespace mywebsite.Controllers
                         _context.Keyboards.Add(keyboard);
                         break;
 
-                    case Switch switchModel:
+                    case KeyboardSwitch switchModel:
                         // Додавання перемикача
                         switchModel.ProductId = product.Id;
                         _context.Switches.Add(switchModel);

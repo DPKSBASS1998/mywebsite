@@ -14,7 +14,7 @@ namespace mywebsite.Data
 
         // Додавання таблиць для продуктів
         public DbSet<Product> Products { get; set; }
-        public DbSet<Switch> Switches { get; set; }
+        public DbSet<KeyboardSwitch> Switches { get; set; }
         public DbSet<Barebone> Barebones { get; set; }
         public DbSet<Keyboard> Keyboards { get; set; }
         public DbSet<Keycaps> Keycaps { get; set; }

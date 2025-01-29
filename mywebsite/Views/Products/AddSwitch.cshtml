@@ -1,0 +1,69 @@
+﻿@using mywebsite.Models.Products
+
+@model KeyboardSwitch
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додавання світчів</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Додавання світчів</h2>
+        <form asp-action="AddSwitch" asp-controller="Manager" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label asp-for="Name">Назва</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Type">Тип перемикача</label>
+                <input asp-for="Type" class="form-control" required />
+                <span asp-validation-for="Type" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="OperatingForce">Сила натискання</label>
+                <input asp-for="OperatingForce" class="form-control" required />
+                <span asp-validation-for="OperatingForce" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TotalTravel">Повний хід</label>
+                <input asp-for="TotalTravel" class="form-control" required />
+                <span asp-validation-for="TotalTravel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="PreTravel">Хід до спрацювання</label>
+                <input asp-for="PreTravel" class="form-control" required />
+                <span asp-validation-for="PreTravel" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TactilePosition">Тактильний хід (якщо є)</label>
+                <input asp-for="TactilePosition" class="form-control" required />
+                <span asp-validation-for="TactilePosition" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="TactileForce">Тактильна сила (якщо є)</label>
+                <input asp-for="TactileForce" class="form-control" required />
+                <span asp-validation-for="TactileForce" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="imageFile">Додати зображення</label>
+                <input id="imageFile" name="imageFile" type="file" class="form-control" accept="image/*" />
+                <small class="form-text text-muted">Виберіть файл зображення клавіатури</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Додати</button>
+        </form>
+    </div>
+
+</body>
+</html>

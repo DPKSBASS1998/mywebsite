@@ -8,7 +8,6 @@ namespace mywebsite.Models.Products
         [Key] // Первинний ключ
         [ForeignKey("Product")] // Зв'язок із таблицею Product
         public int ProductId { get; set; }
-        public Product Product { get; set; }
         [Required]
         public string Name { get; set; }
         [Required]

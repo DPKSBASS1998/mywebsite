@@ -3,12 +3,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace mywebsite.Models.Products
 {
-    public class Switch
+    public class KeyboardSwitch
     {
         [Key] // Первинний ключ
         [ForeignKey("Product")] // Зв'язок із таблицею Product
         public int ProductId { get; set; }
-        public Product Product { get; set; }
         [Required] 
         public string Name { get; set; }
 
@@ -24,8 +23,8 @@ namespace mywebsite.Models.Products
         [Required] 
         public int PreTravel { get; set; }
 
-        public int TactilePosition { get; set; }
-        public int TactileForce { get; set; }
+        public int TactilePosition { get; set; } = 0;
+        public int TactileForce { get; set; } = 0;
         [Required]
         public string ImagePath { get; set; } = "imagehere.png";
 

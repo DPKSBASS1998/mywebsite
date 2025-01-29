@@ -1,0 +1,66 @@
+﻿@using mywebsite.Models.Products
+
+@{
+    ViewData["Title"] = "Додавання клавіатури";
+}
+@model Keycaps
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Додавання клавіатури</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="container">
+        <h2>Додавання клавіатури</h2>
+        <form asp-action="AddKeycaps" asp-controller="Manager" method="post" enctype="multipart/form-data">
+
+            <div class="form-group">
+                <label asp-for="Name">Назва</label>
+                <input asp-for="Name" class="form-control" required />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Profile">Профіль кейкапів</label>
+                <input asp-for="Profile" class="form-control" required />
+                <span asp-validation-for="Profile" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Material">Матеріал кейкапів</label>
+                <input asp-for="Material" class="form-control" required />
+                <span asp-validation-for="Material" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Sublegends">Мова символів</label>
+                <input asp-for="Sublegends" class="form-control" required />
+                <span asp-validation-for="Sublegends" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="ManufacturingProcess">Процес виготовлення</label>
+                <input asp-for="ManufacturingProcess" class="form-control" required />
+                <span asp-validation-for="ManufacturingProcess" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="LayoutStandard">Станданарт розкладки ANSI|ISO</label>
+                <input asp-for="LayoutStandard" class="form-control" required />
+                <span asp-validation-for="LayoutStandard" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="imageFile">Додати зображення</label>
+                <input id="imageFile" name="imageFile" type="file" class="form-control" accept="image/*" />
+                <small class="form-text text-muted">Виберіть файл зображення клавіатури</small>
+            </div>
+            <button type="submit" class="btn btn-primary">Додати клавіатуру</button>
+        </form>
+    </div>
+
+</body>
+</html>
