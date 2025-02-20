@@ -12,8 +12,8 @@ using mywebsite.Data;
 namespace mywebsite.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250127164537_ProductMigration")]
-    partial class ProductMigration
+    [Migration("20250206105022_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -161,7 +161,10 @@ namespace mywebsite.Migrations
             modelBuilder.Entity("mywebsite.Models.Products.Barebone", b =>
                 {
                     b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("CaseMaterial")
                         .IsRequired()
@@ -193,6 +196,9 @@ namespace mywebsite.Migrations
                     b.Property<bool>("RGB")
                         .HasColumnType("bit");
 
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
                     b.HasKey("ProductId");
 
                     b.ToTable("Barebones");
@@ -201,7 +207,10 @@ namespace mywebsite.Migrations
             modelBuilder.Entity("mywebsite.Models.Products.Keyboard", b =>
                 {
                     b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("CaseMaterial")
                         .IsRequired()
@@ -237,6 +246,9 @@ namespace mywebsite.Migrations
                     b.Property<bool>("RGB")
                         .HasColumnType("bit");
 
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("SwitchType")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -246,10 +258,56 @@ namespace mywebsite.Migrations
                     b.ToTable("Keyboards");
                 });
 
+            modelBuilder.Entity("mywebsite.Models.Products.KeyboardSwitch", b =>
+                {
+                    b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
+
+                    b.Property<string>("ImagePath")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("OperatingForce")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreTravel")
+                        .HasColumnType("int");
+
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TactileForce")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TactilePosition")
+                        .HasColumnType("int");
+
+                    b.Property<int>("TotalTravel")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("ProductId");
+
+                    b.ToTable("Switches");
+                });
+
             modelBuilder.Entity("mywebsite.Models.Products.Keycaps", b =>
                 {
                     b.Property<int>("ProductId")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ProductId"));
 
                     b.Property<string>("ImagePath")
                         .IsRequired()
@@ -275,6 +333,9 @@ namespace mywebsite.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("StockQuantity")
+                        .HasColumnType("int");
+
                     b.Property<string>("Sublegends")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -295,43 +356,6 @@ namespace mywebsite.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
-                });
-
-            modelBuilder.Entity("mywebsite.Models.Products.Switch", b =>
-                {
-                    b.Property<int>("ProductId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("ImagePath")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("OperatingForce")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PreTravel")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TactileForce")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TactilePosition")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalTravel")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Type")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("ProductId");
-
-                    b.ToTable("Switches");
                 });
 
             modelBuilder.Entity("mywebsite.Models.Users.User", b =>
@@ -456,50 +480,6 @@ namespace mywebsite.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("mywebsite.Models.Products.Barebone", b =>
-                {
-                    b.HasOne("mywebsite.Models.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("mywebsite.Models.Products.Keyboard", b =>
-                {
-                    b.HasOne("mywebsite.Models.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("mywebsite.Models.Products.Keycaps", b =>
-                {
-                    b.HasOne("mywebsite.Models.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
-                });
-
-            modelBuilder.Entity("mywebsite.Models.Products.Switch", b =>
-                {
-                    b.HasOne("mywebsite.Models.Products.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 #pragma warning restore 612, 618
         }

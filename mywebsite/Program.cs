@@ -5,7 +5,7 @@ using mywebsite.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Налаштування сервісів
+// Налаштування бази даних
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
@@ -17,14 +17,15 @@ builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
-// Ініціалізація ролей та користувача-менеджера
+// Ініціалізація ролей та адміністратора
 using (var scope = app.Services.CreateScope())
 {
     var services = scope.ServiceProvider;
-    await InitializeRoles(services);  // Ініціалізуємо ролі
+    await InitializeRoles(services);
+    await InitializeAdminUser(services);  // Створюємо адміністратора
 }
 
-// Налаштування HTTP запитів
+// Налаштування HTTP-запитів
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
@@ -33,8 +34,8 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseRouting();
-app.UseStaticFiles();  // Для підтримки статичних файлів
-
+app.UseStaticFiles();
+app.UseAuthentication();  // Додаємо аутентифікацію
 app.UseAuthorization();
 
 app.MapControllerRoute(
@@ -54,10 +55,34 @@ async Task InitializeRoles(IServiceProvider serviceProvider)
     {
         if (!await roleManager.RoleExistsAsync(roleName))
         {
-            var role = new IdentityRole(roleName);
-            await roleManager.CreateAsync(role);
+            await roleManager.CreateAsync(new IdentityRole(roleName));
         }
     }
 }
 
+async Task InitializeAdminUser(IServiceProvider serviceProvider)
+{
+    var userManager = serviceProvider.GetRequiredService<UserManager<User>>();
+    string adminEmail = "admin@example.com";
+    string adminPassword = "Admin123!";  //  Замініть на більш надійний перед продакшн-запуском 
+
+    var adminUser = await userManager.FindByEmailAsync(adminEmail);
+    if (adminUser == null)
+    {
+        adminUser = new User
+        {
+            UserName = adminEmail,
+            Email = adminEmail,
+            FirstName = "Admin",  // Додаємо значення FirstName
+            LastName = "User",    // Додаємо значення LastName
+            EmailConfirmed = true
+        };
+
+        var result = await userManager.CreateAsync(adminUser, adminPassword);
+        if (result.Succeeded)
+        {
+            await userManager.AddToRoleAsync(adminUser, "Manager");
+        }
+    }
+}
 

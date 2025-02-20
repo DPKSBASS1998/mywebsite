@@ -22,5 +22,8 @@ namespace mywebsite.Models.Products
         public string LayoutStandard { get; set; }
         [Required]
         public string ImagePath { get; set; } = "imagehere.png";
+        [Required]
+        [Range(0, int.MaxValue, ErrorMessage = "Кількість не може бути від’ємною")]
+        public int StockQuantity { get; set; } = 0; // 0 = Немає в наявності
     }
 }

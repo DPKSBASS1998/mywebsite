@@ -140,49 +140,44 @@ namespace mywebsite.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Отримуємо користувача за його електронною поштою
+                var user = await _userManager.FindByEmailAsync(model.Email);
+
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Користувач не знайдений.");
+                    return View(model); // Повертаємо ту саму сторінку з помилкою
+                }
+
                 // Спроба входу користувача
                 var result = await _signInManager.PasswordSignInAsync(model.Email, model.Password, isPersistent: false, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
-                    // Отримання користувача за його електронною поштою
-                    var user = await _userManager.FindByEmailAsync(model.Email);
-
-                    if (user != null)
+                    // Перевірка ролі користувача
+                    if (await _userManager.IsInRoleAsync(user, "Manager"))
                     {
-                        // Перевірка ролі користувача
-                        if (await _userManager.IsInRoleAsync(user, "Manager"))
-                        {
-                            // Перенаправлення на контролер менеджера
-                            return RedirectToAction("Index", "Manager");
-                        }
-                        else if (await _userManager.IsInRoleAsync(user, "User"))
-                        {
-                            // Перенаправлення на головну сторінку
-                            return RedirectToAction("Index", "Home");
-                        }
-                        else
-                        {
-                            // Якщо у користувача немає потрібних ролей, виконуємо вихід
-                            await _signInManager.SignOutAsync();
-                            ModelState.AddModelError(string.Empty, "У вас немає доступу до системи.");
-                        }
+                        return RedirectToAction("Index", "Manager");
+                    }
+                    else if (await _userManager.IsInRoleAsync(user, "User"))
+                    {
+                        return RedirectToAction("Index", "Home");
                     }
                     else
                     {
-                        ModelState.AddModelError(string.Empty, "Користувач не знайдений.");
+                        await _signInManager.SignOutAsync();
+                        ModelState.AddModelError(string.Empty, "У вас немає доступу до системи.");
                     }
                 }
                 else
                 {
-                    // Якщо вхід не вдалося, додаємо помилку
                     ModelState.AddModelError(string.Empty, "Невірний логін або пароль.");
                 }
             }
 
-            // Якщо модель не валідна або вхід не вдалося виконати, повертаємо користувача на сторінку входу
             return View(model);
         }
+
 
         [HttpGet]
         public IActionResult Login()
